@@ -1,0 +1,69 @@
+const { gql } = require('apollo-server');
+
+const userSchema = gql ` 
+
+    # Definir novo tipo escalar
+    scalar DateTime
+
+    enum RolesType {
+        ESTUDANTE
+        DOCENTE
+        COORDENACAO
+    }
+
+    type User {
+        nome: String!
+        ativo: Boolean!
+        email: String
+        role: Role!
+        createdAt: DateTime
+    }
+
+    # Usado para passar um conjunto de paramêtros para os entrys points
+    # Só podem receber escalares, outros inputs e listas
+    # não se pode usar objetos
+    input UserInput {
+        nome: String!
+        ativo: Boolean!
+        email: String
+        role: RolesType
+        createdAt: DateTime
+    }
+
+    type Role {
+        id: ID!
+        type: RolesType!
+    }
+
+    # Query: São aos entry points da API, nossas chamadas 
+    type Query {
+        users: [User] 
+        user(id: ID!): User!
+    }
+
+    # Mutation: São as chamadas de alteração da API, nossas chamadas de alteração
+    type Mutation {
+        adicionaUser(user: UserInput): User!
+        atualizaUser(id: ID!, user: UserInput): atualizaUserResposta!
+        deletaUser(id: ID!): deletaUserResposta!
+    }
+
+    # Tipo abstrato
+    interface respostaCustom{
+        code: Int!
+        message: String!
+    }
+
+    type deletaUserResposta implements respostaCustom{
+        code: Int!
+        message: String!
+    }
+
+    type atualizaUserResposta implements respostaCustom{
+        code: Int!
+        message: String!
+        user: User!
+    }
+`
+
+module.exports = userSchema;

@@ -41,6 +41,29 @@
       "ativo": true,
       "email": "m@m.com",
       "role": 2
+    },
+    {
+      "id": 7,
+      "nome": "Lucas 1",
+      "ativo": true,
+      "email": "lucas99.abreu@gmail.com",
+      "role": 1
+    },
+    {
+      "nome": "Lucas 2",
+      "ativo": true,
+      "email": "lucas@g.com",
+      "role": 1,
+      "createdAt": "2022-07-04T00:00:00.000Z",
+      "id": 8
+    },
+    {
+      "nome": "Lucas 2",
+      "ativo": true,
+      "email": "lucas@g.com",
+      "role": 2,
+      "createdAt": "2022-07-04T00:00:00.000Z",
+      "id": 9
     }
   ],
   "roles": [
