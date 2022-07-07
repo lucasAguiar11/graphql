@@ -1,8 +1,13 @@
 const { ApolloServer } = require("apollo-server");
+const { mergeTypeDefs } = require("@graphql-tools/merge");
+
 const userSchema = require("./user/schema/user.graphql");
 const userResolvers = require("./user/resolvers/userResolvers");
 
-const UsersAPI = require("./user/datasource/user"); 
+const turmaSchema = require("./turma/schema/turma.graphql");
+const turmaResolvers = require("./turma/resolvers/turmaResolvers");
+
+const UsersAPI = require("./user/datasource/user");
 
 // apollo-server lib para criação de servidor graphql
 // ele pode pegar as informações de qualquer lugar, um banco, memória ou api
@@ -54,14 +59,18 @@ MUTATION TYPE
 // GraphQl é uma especificação que define o comportamento de um servidor de graphql
 // Apollo Server é uma ferramenta que implementa o GraphQl
 
-const typeDefs = [userSchema];
-const resolvers = [userResolvers];
+const typeDefs = mergeTypeDefs([userSchema, turmaSchema]);
+const resolvers = [userResolvers, turmaResolvers];
 
-const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => {
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  dataSources: () => {
     return {
-        usersAPI: new UsersAPI(),
+      usersAPI: new UsersAPI(),
     };
-} });
+  },
+});
 
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
